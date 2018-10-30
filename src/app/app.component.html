@@ -1,5 +1,5 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div class="buts">
+<div class="buts" *ngIf="butt">
   <button (click)="playerStart()" class="btn-success">Player Start</button>
   <button (click)="cpuStart()">CPU Start</button>
 </div>
@@ -8,4 +8,5 @@
     <p>{{ field.val }}</p>
   </div>
   <p [ngStyle]="{color: win ? 'blue' : 'red'}" style="font-size: 50px">{{winner}}</p>
+  <button (click)="rematch()" style="margin-top: 20px">REMATCH</button>
 </div>

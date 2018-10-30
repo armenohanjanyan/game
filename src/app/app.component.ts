@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
     start = false;
     cpuFirst: boolean;
     playerTurn = true;
+    butt = true;
 
 
   ngOnInit() {
@@ -44,12 +45,12 @@ export class AppComponent implements OnInit {
 
   cpuStep() {
       let m = Math.floor(Math.random() * 9);
-      if (this.fields[m].val === "") {
+      if (this.fields[m].val === "" && this.winner === "") {
         this.fields[m].val = "O";
         this.fields[m].sum = 4
-        console.log(m);
 
       } else {this.cpuStep()}
+
       this.playerTurn = true;
   }
 
@@ -63,9 +64,13 @@ export class AppComponent implements OnInit {
         this.fields[2].sum + this.fields[5].sum + this.fields[8].sum == 3
 
       ) {
-      this.winner = "Player Wins";
-      this.fields.map(el => el.val = "");
-      clearTimeout(this.t)
+        this.butt = true;
+      this.winner = "YOU WIN";
+      this.fields.map(el => {
+        el.val = "";
+        el.sum = 0
+      });
+      clearTimeout(this.t);
     }
     if (this.fields[0].sum + this.fields[1].sum + this.fields[2].sum == 12 ||
         this.fields[3].sum + this.fields[4].sum + this.fields[5].sum == 12 ||
@@ -75,20 +80,38 @@ export class AppComponent implements OnInit {
         this.fields[1].sum + this.fields[4].sum + this.fields[7].sum == 12 ||
         this.fields[2].sum + this.fields[5].sum + this.fields[8].sum == 12
       ) {
+        this.butt = true;
         this.winner = "GAME OVER";
-        this.fields.map(el => el.val = "")
+        this.fields.map(el => {
+          el.val = "";
+          el.sum = 0
+        })
         clearTimeout(this.t)
         this.win = false;
       }
+
   }
 
   playerStart() {
+    this.butt = false;
+    this.winner = "";
     this.start = true;
   }
 
   cpuStart() {
+    this.butt = false;
+    this.winner = "";
     this.start = true;
     this.cpuStep()
+  }
+
+  rematch() {
+    this.fields.map(el => {
+      el.val = "";
+      el.sum = 0
+    })
+    this.winner = "";
+    this.butt = true;
   }
 
 }
