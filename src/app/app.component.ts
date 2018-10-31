@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
     ];
     winner = "";
     t;
-    win = true;
+    win: boolean;
     start = false;
     cpuFirst: boolean;
     playerTurn = true;
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
       this.t = setTimeout(() => {
        this.cpuStep()
         this.checkWinner()
-     }, 2000);
+     }, 1000);
      this.playerTurn = false;
   }
 
@@ -61,16 +61,18 @@ export class AppComponent implements OnInit {
         this.fields[0].sum + this.fields[4].sum + this.fields[8].sum == 3 ||
         this.fields[0].sum + this.fields[3].sum + this.fields[6].sum == 3 ||
         this.fields[1].sum + this.fields[4].sum + this.fields[7].sum == 3 ||
-        this.fields[2].sum + this.fields[5].sum + this.fields[8].sum == 3
+        this.fields[2].sum + this.fields[5].sum + this.fields[8].sum == 3 ||
+        this.fields[2].sum + this.fields[4].sum + this.fields[6].sum == 3
 
       ) {
-        this.butt = true;
-      this.winner = "YOU WIN";
-      this.fields.map(el => {
+        clearTimeout(this.t);
+        this.butt = false;
+        this.winner = "YOU WIN";
+        this.win = true;
+        this.fields.map(el => {
         el.val = "";
         el.sum = 0
       });
-      clearTimeout(this.t);
     }
     if (this.fields[0].sum + this.fields[1].sum + this.fields[2].sum == 12 ||
         this.fields[3].sum + this.fields[4].sum + this.fields[5].sum == 12 ||
@@ -78,9 +80,10 @@ export class AppComponent implements OnInit {
         this.fields[0].sum + this.fields[4].sum + this.fields[8].sum == 12 ||
         this.fields[0].sum + this.fields[3].sum + this.fields[6].sum == 12 ||
         this.fields[1].sum + this.fields[4].sum + this.fields[7].sum == 12 ||
-        this.fields[2].sum + this.fields[5].sum + this.fields[8].sum == 12
+        this.fields[2].sum + this.fields[5].sum + this.fields[8].sum == 12 ||
+        this.fields[2].sum + this.fields[4].sum + this.fields[6].sum == 12
       ) {
-        this.butt = true;
+        this.butt = false;
         this.winner = "GAME OVER";
         this.fields.map(el => {
           el.val = "";
@@ -106,12 +109,16 @@ export class AppComponent implements OnInit {
   }
 
   rematch() {
+    this.playerTurn = true;
+    this.start = false;
     this.fields.map(el => {
       el.val = "";
       el.sum = 0
+      console.log(el.sum)
     })
-    this.winner = "";
+    this.winner = ".";
     this.butt = true;
   }
+
 
 }
